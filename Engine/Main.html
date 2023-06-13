@@ -1,0 +1,66 @@
+<html>
+    <head>
+        <title>Game</title>
+    </head>
+    <body>
+        <canvas id="Game"></canvas>
+    </body>
+    <style>
+        #Game{
+            position: fixed;
+            transform: translate(-50%,-50%);
+            left: 50%;
+            top: 50%;
+            image-rendering: pixelated;
+        }
+    </style>
+    <script>
+        let Canvas = document.getElementById("Game")
+        let Game = Canvas.getContext("2d")
+        let Mouse = {x:0,y:0}
+        let CanvasSize = {w:700,h:500}
+
+        //Game Configuration
+        Canvas.width = 1400
+        Canvas.height = 1000
+        Canvas.style.width = CanvasSize.w
+        Canvas.style.height = CanvasSize.h
+
+        //rendering functions
+        function Background(c){
+            Game.clearRect(0,0,Canvas.width,Canvas.height)
+            if(c == null){return}
+            Game.fillStyle = c
+            Game.beginPath()
+            Game.fillRect(0,0,Canvas.width,Canvas.height)
+            Game.closePath()
+            Game.fill()
+        }
+        function Rect(x,y,w,h,c){
+            Game.fillStyle = c
+            Game.beginPath()
+            Game.rect(x-w/2,y-h/2,w,h)
+            Game.closePath()
+            Game.fill()
+        }
+        function Circle(x,y,w,h,c){
+            Game.fillStyle = c
+            Game.beginPath()
+            Game.ellipse(x,y,w/2,h/2,0,1,360)
+            Game.closePath()
+            Game.fill()
+        }
+        //Game
+        function Render(){   
+            Background("#5f5f5f")
+
+            Circle(Mouse.x,Mouse.y,500,500,"#ff0000")
+        }
+        
+        document.addEventListener("mousemove", (event) =>{
+            Mouse.x = (event.clientX-window.innerWidth/2+CanvasSize.w/2)/CanvasSize.w*Canvas.width
+            Mouse.y = (event.clientY-window.innerHeight/2+CanvasSize.h/2)/CanvasSize.h*Canvas.height
+        })
+        setInterval(Render,1)
+    </script>
+</html>
